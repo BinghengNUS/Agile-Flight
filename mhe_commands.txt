@@ -1,0 +1,39 @@
+---PX4---
+[open a terminal 1](kill this)
+cd autopilot/mhe_px4/px4_modified
+make px4_sitl gazebo_iris (windy)
+HEADLESS=1 make px4_sitl gazebo (no-wind)
+
+
+---MAVROS---
+[open a terminal 2]
+roslaunch mavros px4.launch fcu_url:="udp://:14540@127.0.0.1:14557"
+
+---QGroundControl---
+[open a terminal 3]
+qgroundcontrol
+
+---offboard controller---
+[open a terminal 4](kill this)
+conda activate drone
+cd mhe_ws
+source devel/setup.bash
+cd src/px4_offb/scripts
+rosrun px4_offb offb_py_v1.py
+
+[open a terminal 5]
+rostopic pub /user/cmd std_msgs/Byte "data: 2"
+
+---iris.world---
+~/autopilot/mhe_px4/px4_modified/Tools/sitl_gazebo/worlds/iris.world
+---parameters of uav---
+~/autopilot/mhe_px4/px4_modified/Tools/sitl_gazebo/models/iris.sdf
+
+---log---
+[open a new terminal]
+flightplot
+
+---log directory---
+/home/nusuav/autopilot/mhe_px4/px4_modified/build/px4_sitl_default/logs/
+
+
